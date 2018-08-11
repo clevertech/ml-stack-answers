@@ -55,7 +55,7 @@ setup(
     setup_requires=setup_requirements,
     test_suite='tests',
     tests_require=test_requirements,
-    url='https://github.com/clevertech/ml_stack_answers',
+    url='https://github.com/clevertech/ml-stack-answers',
     version='0.1.0',
     zip_safe=False,
 )

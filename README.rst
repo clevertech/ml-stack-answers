@@ -3,11 +3,11 @@ ml-stack-answers
 ================
 
 
-.. image:: https://img.shields.io/pypi/v/ml_stack_answers.svg
-        :target: https://pypi.python.org/pypi/ml_stack_answers
+.. image:: https://img.shields.io/pypi/v/ml-stack-answers.svg
+        :target: https://pypi.python.org/pypi/ml-stack-answers
 
-.. image:: https://img.shields.io/travis/clevertech/ml_stack_answers.svg
-        :target: https://travis-ci.org/clevertech/ml_stack_answers
+.. image:: https://img.shields.io/travis/clevertech/ml-stack-answers.svg
+        :target: https://travis-ci.org/clevertech/ml-stack-answers
 
 .. image:: https://readthedocs.org/projects/ml-stack-answers/badge/?version=latest
         :target: https://ml-stack-answers.readthedocs.io/en/latest/?badge=latest

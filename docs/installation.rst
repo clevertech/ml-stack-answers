@@ -32,13 +32,13 @@ You can either clone the public repository:
 
 .. code-block:: console
 
-    $ git clone git://github.com/clevertech/ml_stack_answers
+    $ git clone git://github.com/clevertech/ml-stack-answers
 
 Or download the `tarball`_:
 
 .. code-block:: console
 
-    $ curl  -OL https://github.com/clevertech/ml_stack_answers/tarball/master
+    $ curl  -OL https://github.com/clevertech/ml-stack-answers/tarball/master
 
 Once you have a copy of the source, you can install it with:
 
@@ -47,5 +47,5 @@ Once you have a copy of the source, you can install it with:
     $ python setup.py install
 
 
-.. _Github repo: https://github.com/clevertech/ml_stack_answers
-.. _tarball: https://github.com/clevertech/ml_stack_answers/tarball/master
+.. _Github repo: https://github.com/clevertech/ml-stack-answers
+.. _tarball: https://github.com/clevertech/ml-stack-answers/tarball/master
