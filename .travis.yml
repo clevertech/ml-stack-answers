@@ -2,10 +2,7 @@
 
 language: python
 python:
-  - 3.6
-  - 3.5
-  - 3.4
-  - 2.7
+  - 3.7
 
 # Command to install dependencies, e.g. pip install -r requirements.txt --use-mirrors
 install: pip install -U tox-travis
@@ -19,11 +16,12 @@ script: tox
 # $ travis encrypt --add deploy.password
 deploy:
   provider: pypi
+  server: https://test.pypi.org/simple/
   distributions: sdist bdist_wheel
-  user: chadfurman
+  user: fikander
   password:
     secure: PLEASE_REPLACE_ME
   on:
     tags: true
-    repo: chadfurman/ml_stack_answers
-    python: 3.6
+    repo: clevertech/ml_stack_answers
+    python: 3.7
