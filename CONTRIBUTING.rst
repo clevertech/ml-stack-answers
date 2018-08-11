@@ -68,7 +68,8 @@ Ready to contribute? Here's how to set up `ml_stack_answers` for local developme
 
     $ mkvirtualenv ml_stack_answers
     $ cd ml_stack_answers/
-    $ python setup.py develop
+    $ python setup.py develop [or] pip install -e .
+    $ pip install -r requirements_dev.txt
 
 4. Create a branch for local development::
 

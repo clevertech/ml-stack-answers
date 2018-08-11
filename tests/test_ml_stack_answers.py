@@ -7,7 +7,6 @@ import pytest
 
 from click.testing import CliRunner
 
-from ml_stack_answers import ml_stack_answers
 from ml_stack_answers import cli
 
 
@@ -30,9 +29,6 @@ def test_content(response):
 def test_command_line_interface():
     """Test the CLI."""
     runner = CliRunner()
-    result = runner.invoke(cli.main)
-    assert result.exit_code == 0
-    assert 'ml_stack_answers.cli.main' in result.output
     help_result = runner.invoke(cli.main, ['--help'])
     assert help_result.exit_code == 0
-    assert '--help  Show this message and exit.' in help_result.output
+    assert '--help' in help_result.output
