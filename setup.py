@@ -13,9 +13,9 @@ with open('HISTORY.rst') as history_file:
 
 requirements = [
     'Click>=6.0',
-    'matplotlib==2.2.2',
-    'numpy==1.15.0',
-    'pandas==0.23.4',
+    'matplotlib',
+    'numpy',
+    'pandas',
     'sklearn',
 ]
 
