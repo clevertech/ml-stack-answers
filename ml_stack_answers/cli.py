@@ -19,8 +19,11 @@ def main(ctx, debug):
 
 
 @main.command()
+@click.option('--data', default='data/', help='Path to folder containing Badges.xml, Comments.xml, PostHistory.xml, PostLinks.xml, Posts.xml, Tags.xml, Users.xml, and Votes.xml (i.e. the extracted archive from StackOverflow)')
 @click.pass_context
-def preprocess(ctx):
+def preprocess(ctx, data):
+    click.echo("TODO: Verify files exist")
+    click.echo("TODO: Open a custom Extractor instance for each file, customized with file ")
     click.echo("TODO: Preprocess data")
     return 0
 
