@@ -3,7 +3,19 @@
 """Console script for ml_stack_answers."""
 import sys
 import click
+import pprint
+from os import path
 
+files = [
+    'Badges.xml',
+    'Comments.xml',
+    'PostHistory.xml',
+    'PostLinks.xml',
+    'Posts.xml',
+    'Tags.xml',
+    'Users.xml',
+    'Votes.xml',
+]
 
 @click.group()
 @click.option('--debug/--no-debug', default=False)
@@ -18,15 +30,38 @@ def main(ctx, debug):
     return 0
 
 
-@main.command()
-@click.option('--data', default='data/', help='Path to folder containing Badges.xml, Comments.xml, PostHistory.xml, PostLinks.xml, Posts.xml, Tags.xml, Users.xml, and Votes.xml (i.e. the extracted archive from StackOverflow)')
+@click.command()
+@click.option("--data", default="data/", help="Path to folder containing the data files to preprocess.  Looks for the following files: \n" + pprint.pformat(files))
 @click.pass_context
 def preprocess(ctx, data):
-    click.echo("TODO: Verify files exist")
+    """Preprocess data files for algorithm"""
+    data = ensureDirSlash(data)
+
+    if isMissingFile():
+        print("Missing files")
+        exit(100)
+
+    # invoke SLR extractor
+
     click.echo("TODO: Open a custom Extractor instance for each file, customized with file ")
     click.echo("TODO: Preprocess data")
     return 0
 
+main.add_command(preprocess)
+
+
+def isMissingFile():
+    missingFile = False
+    for file in files:
+        fileFound = path.isFile(data + file)
+        print(file + " is " + ("found" if fileFound else "not found."))
+        missingFile = missingFile or not fileFound
+    return missingFile
+
+
+def ensureDirSlash(dir):
+    if (dir[-1] is not '/'):
+        dir = dir + '/'
 
 if __name__ == "__main__":
     sys.exit(main())  # pragma: no cover
