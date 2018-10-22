@@ -19,9 +19,9 @@ requirements = [
     'sklearn',
 ]
 
-setup_requirements = ['pytest-runner', ]
+setup_requirements = ['pytest-runner', ] + requirements
 
-test_requirements = ['pytest', ]
+test_requirements = ['pytest', ] + requirements
 
 setup(
     author="Clevertech",

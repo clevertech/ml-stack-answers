@@ -1,52 +1,61 @@
-from Extractors import Extractor
+from Extractors.Extractor import Extractor
 from collections import Mapping
+import pprint
+
+pp = pprint.PrettyPrinter(indent=4)
 
 class PostExtractor(Extractor):
-    def __init__(self, path):
-        super().__init__(path)
+    def __init__(self, file):
+        print("Prepping PostExtractor")
+        super().__init__(file)
         self.posts = {}
+        print(self.root)
 
         # extract
-        self.posts = self.extractQuestionsAndAnswers(self.root)
+        print("Extracting Q&A from Posts")
+        self.posts = self.extractQuestionsAndAnswers()
+
+        print("Printing post 2...")
+        pp.pprint(self.posts['questions']["21"])
+        pp.pprint(self.posts['answersByQuestion']["21"])
 
         return
 
-    def extractQuestionsAndAnswers(self, root):
-        questions = self.getQuestions(root)
-        answers = self.getAnswers(root)
-        qa_map = self.mapQuestionsToAnswers(questions, answers)
+    def extractQuestionsAndAnswers(self):
+        qa = {}
+        qa['questions'] = self.getQuestions()
+        qa['answers'] = self.getAnswers()
+        qa['answersByQuestion'] = self.mapAnswersToQuestions(qa)
+        return qa
 
-    def mapQuestionsAnswers(self, questions, answers):
-        qa_map = {}
+    def mapAnswersToQuestions(self,qa):
+        map = {} # { 'questionId': ['answerId', ...] }
+        for answerIndex in qa['answers']:
+            answer = qa['answers'][answerIndex]
+            if not answer['ParentId'] in map:
+                map[answer['ParentId']] = [answer['Id']]
+            else:
+                map[answer['ParentId']].append(answer['Id'])
+        return map
 
-        # map answers to questions
-        for answer in answers:
-            answer_parent = answer['ParentId']
-            for question in questions:
-                question_id = question['Id']
-                if question_id == answer_parent:
-                    qa_map = self.pushAnswerIntoQuestionMap(answer, question, qa_map)
+    def getQuestions(self):
+        rawQuestions = self.getRawQuestions()
+        return self. makeDictFromRawPosts(rawQuestions)
 
-    def pushAnswerIntoQuestionMap(self, answer, question, qa_map):
-        if not isinstance(qa_map, Mapping):
-            return qa_map
+    def getAnswers(self):
+        rawAnswers = self.getRawAnswers()
+        return self. makeDictFromRawPosts(rawAnswers)
 
-        question_dict = qa_map[question['Id']]
-        if not isinstance(question_dict, Mapping):
-            qa_map[question['Id']] = {}
-            question_dict = qa_map[question['Id']]
+    def getRawQuestions(self):
+        return self.root.findall(".//*[@PostTypeId='1']")
 
-        answer_dict = question_dict['answers']
-        if not isinstance(answer_dict, Mapping):
-            question_dict['answers'] = {}
-            answer_dict = question_dict['answers']
+    def getRawAnswers(self):
+        return self.root.findall(".//*[@PostTypeId='2']")
 
-        answer_dict[answer['Id']] = answer
-        return qa_map
+    def makeDictFromRawPosts(self, rawPosts):
+        postsDict = {} # {"id": { the other attributes }}
+        for post in rawPosts:
+            postsDict[post.attrib["Id"]] = post.attrib
+        return postsDict
 
-    def getQuestions(self,root):
-        return root.findall("./[@PostTypeId='1']")
-
-    def getAnswers(self, root):
-        return root.findall("./[@PostTypeId='2']")
 

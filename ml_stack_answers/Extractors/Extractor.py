@@ -1,12 +1,21 @@
 from xml.etree import ElementTree as ET
 
+import pprint
+
+pp = pprint.PrettyPrinter(indent=4)
+
 class Extractor:
     """
     Take in the path to an XML file and parse out the tree and the root element, make them class variables
     """
     def __init__(self, dataFilePath):
+        print("Extracting Tree")
         self.tree = self.getTree(dataFilePath)
+        print("Grabbing root")
         self.root = self.getRoot(self.tree)
+
+        pp.pprint(self.root)
+
         return
 
     """
