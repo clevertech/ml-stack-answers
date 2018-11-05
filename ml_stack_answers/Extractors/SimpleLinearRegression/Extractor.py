@@ -19,15 +19,15 @@ class SimpleLinearRegressionExtractor:
     Returns a map, keyed by Post IDs,  features to their values, key
     """
     def getXandY(self, data_map):
-        x = [] # list of wordcounts for all posts
-        y = [] # corresponding accepted / not accepted status of all posts
-        XandY = [x,y]
-
+        x = self.getWordCountOfAllAnswers() # list of wordcounts for all posts
+        y = self.getAllAnswerAcceptanceList() # corresponding accepted / not accepted status of all posts
         return [x,y]
-        # for each question
-            # get question's set of answers
-            # get each answer's author's score ( author_score )
-            # get each answer's word count (word_count)
-            # get number of upvotes on answer (upvotes)
-            # answer_score = author_score*5 + word_count*2 + upvotes
-            # answer_accepted = True or False
+        # both of these lists should be of length N where N is the size equal to the length of extracted_posts[answers]
+        #  [200,300,150] # wordcount of answers
+        #  [100,0,100] # accepted status of answers
+
+    def getWordCountOfAllAnswers(self):
+        return []
+
+    def getAllAnswerAcceptanceList(self):
+        return []
