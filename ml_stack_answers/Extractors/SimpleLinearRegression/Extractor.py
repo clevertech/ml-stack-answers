@@ -18,7 +18,12 @@ class SimpleLinearRegressionExtractor:
     """
     Returns a map, keyed by Post IDs,  features to their values, key
     """
-    def getFeatures(self, data_map):
+    def getXandY(self, data_map):
+        x = [] # list of wordcounts for all posts
+        y = [] # corresponding accepted / not accepted status of all posts
+        XandY = [x,y]
+
+        return [x,y]
         # for each question
             # get question's set of answers
             # get each answer's author's score ( author_score )
@@ -26,5 +31,3 @@ class SimpleLinearRegressionExtractor:
             # get number of upvotes on answer (upvotes)
             # answer_score = author_score*5 + word_count*2 + upvotes
             # answer_accepted = True or False
-
-        return
