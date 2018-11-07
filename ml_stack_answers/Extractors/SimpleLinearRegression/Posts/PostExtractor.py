@@ -15,10 +15,7 @@ class PostExtractor(Extractor):
         print("Extracting Q&A from Posts")
         self.posts = self.extractQuestionsAndAnswers()
 
-        print("Printing post 2...")
-        pp.pprint(self.posts['questions']["21"])
-        pp.pprint(self.posts['answersByQuestion']["21"])
-
+        print("Extracted")
         return
 
     def extractQuestionsAndAnswers(self):
@@ -40,11 +37,11 @@ class PostExtractor(Extractor):
 
     def getQuestions(self):
         rawQuestions = self.getRawQuestions()
-        return self. makeDictFromRawPosts(rawQuestions)
+        return self.makeDictFromRawPosts(rawQuestions)
 
     def getAnswers(self):
         rawAnswers = self.getRawAnswers()
-        return self. makeDictFromRawPosts(rawAnswers)
+        return self.makeDictFromRawPosts(rawAnswers)
 
     def getRawQuestions(self):
         return self.root.findall(".//*[@PostTypeId='1']")
