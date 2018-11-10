@@ -5,7 +5,8 @@ __pycache__/
 
 # C extensions
 *.so
-
+#data sets
+data/
 # Distribution / packaging
 .Python
 env/
@@ -102,3 +103,6 @@ ENV/
 .mypy_cache/
 
 .idea
+
+#Editor
+.vscode/

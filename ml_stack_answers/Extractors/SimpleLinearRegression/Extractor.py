@@ -1,5 +1,6 @@
 from Extractors.SimpleLinearRegression.Posts.PostExtractor import PostExtractor
 import pprint
+import re
 
 pp = pprint.PrettyPrinter(indent=4)
 
@@ -34,7 +35,13 @@ class SimpleLinearRegressionExtractor:
         #  [100,0,100] # accepted status of answers
 
     def getWordCountOfAllAnswers(self):
-        return []
+        answers = self.extracted_posts.posts['answers']
+        for answerIndex in answers:
+            answer = answers[answerIndex]['Body']
+            exp = re.compile(r'<.*?>') #Answers has html :)
+            answer = exp.sub('', answer)
+            answers[answerIndex]['WordCount'] = str(len(answer.split()))
+        return answers
 
     def getAllAnswerAcceptanceList(self):
         acceptedAnswers = self.getAcceptedAnswers()
@@ -49,7 +56,8 @@ class SimpleLinearRegressionExtractor:
             answerAcceptance = 0
             if answer['Id'] in acceptedAnswers:
                 answerAcceptance = 1
-            print('Answer '+str(answer['Id'])+' is '+str(answerAcceptance)+"\n")
+            print('Answer '+str(answer['Id'])+' is '+str(answerAcceptance)+
+                ' with word count:' + answer['WordCount']  + "\n")
             answerAcceptanceList.append(answerAcceptance)
         return answerAcceptanceList
 
