@@ -1,3 +1,4 @@
+
 ================
 ml-stack-answers
 ================
@@ -19,6 +20,7 @@ ml-stack-answers
 Machine learning using data from stackexchange.com
 
 
+* Powered by the Udemy course: https://www.udemy.com/machinelearning/
 * Free software: BSD license
 * Documentation: https://ml-stack-answers.readthedocs.io.
 

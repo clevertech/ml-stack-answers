@@ -27,8 +27,6 @@ class SimpleLinearRegressionExtractor:
         x = self.getWordCountOfAllAnswers() # list of wordcounts for all posts
         print("Getting dependent variable (y)")
         y = self.getAllAnswerAcceptanceList() # corresponding accepted / not accepted status of all posts
-        print("y is:")
-        pp.pprint(y)
         return [x,y]
         # both of these lists should be of length N where N is the size equal to the length of extracted_posts[answers]
         #  [200,300,150] # wordcount of answers
@@ -36,12 +34,14 @@ class SimpleLinearRegressionExtractor:
 
     def getWordCountOfAllAnswers(self):
         answers = self.extracted_posts.posts['answers']
+        wordCountList = []
         for answerIndex in answers:
             answer = answers[answerIndex]['Body']
             exp = re.compile(r'<.*?>') #Answers has html :)
             answer = exp.sub('', answer)
             answers[answerIndex]['WordCount'] = str(len(answer.split()))
-        return answers
+            wordCountList.append(answers[answerIndex]['WordCount'])
+        return wordCountList
 
     def getAllAnswerAcceptanceList(self):
         acceptedAnswers = self.getAcceptedAnswers()
@@ -56,8 +56,6 @@ class SimpleLinearRegressionExtractor:
             answerAcceptance = 0
             if answer['Id'] in acceptedAnswers:
                 answerAcceptance = 1
-            print('Answer '+str(answer['Id'])+' is '+str(answerAcceptance)+
-                ' with word count:' + answer['WordCount']  + "\n")
             answerAcceptanceList.append(answerAcceptance)
         return answerAcceptanceList
 
