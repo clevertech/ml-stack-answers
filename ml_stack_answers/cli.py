@@ -4,6 +4,7 @@
 import sys
 import click
 import pprint
+import matplotlib.pyplot as plt
 from os import path
 
 from Extractors.SimpleLinearRegression.Extractor import SimpleLinearRegressionExtractor
