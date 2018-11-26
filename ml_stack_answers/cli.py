@@ -11,14 +11,14 @@ pp = pprint.PrettyPrinter(indent=4)
 from Extractors.SimpleLinearRegression.Extractor import SimpleLinearRegressionExtractor
 
 files = {
-    'Badges': 'Badges.xml',
-    'Comments': 'Comments.xml',
-    'PostHistory': 'PostHistory.xml',
-    'PostLinks': 'PostLinks.xml',
+#    'Badges': 'Badges.xml',
+#    'Comments': 'Comments.xml',
+#    'PostHistory': 'PostHistory.xml',
+#    'PostLinks': 'PostLinks.xml',
     'Posts': 'Posts.xml',
-    'Tags': 'Tags.xml',
-    'Users': 'Users.xml',
-    'Votes': 'Votes.xml',
+#    'Tags': 'Tags.xml',
+#    'Users': 'Users.xml',
+#    'Votes': 'Votes.xml',
 }
 
 @click.group()
