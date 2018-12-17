@@ -6,7 +6,7 @@ import click
 import pprint
 import matplotlib.pyplot as plt
 from os import path
-pp = pprint.PrettyPrinter(indent=4)
+from pprint import pprint as pp
 
 from Extractors.SimpleLinearRegression.Extractor import SimpleLinearRegressionExtractor
 
@@ -32,14 +32,16 @@ def main(ctx, debug):
 
 
 @click.command()
-@click.option("--data", default="./data/", help="Path to folder containing the data files to preprocess.  Looks for the following files: \n" + pprint.pformat(files))
+@click.option("--data", default="./data/", help="Path to folder containing the data files to slr.  Looks for the following files: \n" + pprint.pformat(files))
+@click.argument("predict")
 @click.pass_context
-def preprocess(ctx, data):
+def slr(ctx, data, predict):
     """Preprocess data files for algorithm"""
     data_dir = ensureDirSlash(data)
+    predict = predict.split(',')
 
     if isMissingFile(data):
-        print("Missing files.  run preprocess with --data")
+        print("Missing files.  run slr with --data")
         exit(100)
     else:
         print("Found datafiles")
@@ -68,17 +70,6 @@ def preprocess(ctx, data):
     from sklearn.model_selection import train_test_split
     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=1/3, random_state=0)
 
-    print('X_train')
-    print(X_train)
-    print('y_train')
-    print(y_train)
-
-    print('X_test')
-    print(X_test)
-    print('y_test')
-    print(y_test)
-
-
     # Feature Scaling
     """from sklearn.preprocessing import StandardScaler
     sc_X = StandardScaler()
@@ -92,32 +83,13 @@ def preprocess(ctx, data):
     regressor = LinearRegression()
     regressor.fit(X_train, y_train)
 
-    # Predicting the Test set results
-    y_pred = regressor.predict(X_test)
+    to_predict = [[float(n)] for n in predict]
+    pp(to_predict)
+    predicted = regressor.predict(to_predict)
+    pp(predicted)
+    return predicted
 
-    # Visualising the Training set results
-    plt.scatter(X_train, y_train, color='red')
-    plt.plot(X_train, regressor.predict(X_train), color='blue')
-    plt.title('Salary vs Experience (Training set)')
-    plt.xlabel('Years of Experience')
-    plt.ylabel('Salary')
-    plt.show()
-
-    # Visualising the Test set results
-    plt.scatter(X_test, y_test, color='red')
-    plt.plot(X_train, regressor.predict(X_train), color='blue')
-    plt.title('Salary vs Experience (Test set)')
-    plt.xlabel('Years of Experience')
-    plt.ylabel('Salary')
-    plt.show()
-    # slr_features = SimpleLinearRegressionExtractor(data_dir, files).getFeatures()
-    # slr_model = train_model
-    # slr_predictions = guess_unanswered
-
-    click.echo("TODO: Preprocess data")
-    return 0
-
-main.add_command(preprocess)
+main.add_command(slr)
 
 
 def isMissingFile(data):
