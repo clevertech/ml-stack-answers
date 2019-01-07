@@ -1,3 +1,4 @@
+
 ================
 ml-stack-answers
 ================
@@ -19,6 +20,7 @@ ml-stack-answers
 Machine learning using data from stackexchange.com
 
 
+* Powered by the Udemy course: https://www.udemy.com/machinelearning/
 * Free software: BSD license
 * Documentation: https://ml-stack-answers.readthedocs.io.
 
@@ -26,7 +28,13 @@ Machine learning using data from stackexchange.com
 Features
 --------
 
-* TODO
+* Python3
+* Reads an XML dataset from archive.org's stack overflow collection to build a training and testing set for each supported algorithm
+* Currently supports:
+  * Simple Linear Regression
+  * Multiple Linear Regression (WIP)
+  * ...
+
 
 Credits
 -------
