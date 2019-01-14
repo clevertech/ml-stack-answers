@@ -55,4 +55,42 @@ class PostExtractor(Extractor):
             postsDict[post.attrib["Id"]] = post.attrib
         return postsDict
 
+    def getWordCountOfAllAnswers(self, answers):
+        answers = 
+        wordCountList = []
+        for answerIndex in answers:
+            answer = answers[answerIndex]['Body']
+            exp = re.compile(r'<.*?>') #Answers has html :)
+            answer = exp.sub('', answer)
+            answers[answerIndex]['WordCount'] = str(len(answer.split()))
+            wordCountList.append(answers[answerIndex]['WordCount'])
+        return wordCountList
+
+    def getAllAnswerAcceptanceList(self, questions):
+        acceptedAnswers = self.getAcceptedAnswers(questions)
+        return self.getAnswerAcceptanceList(acceptedAnswers)
+
+    def getAnswerAcceptanceList(self, acceptedAnswers):
+        answers = self.extracted_posts.posts['answers']
+        answerAcceptanceList = []
+
+        for answerIndex in answers:
+            answer = answers[answerIndex]
+            answerAcceptance = 0
+            if answer['Id'] in acceptedAnswers:
+                answerAcceptance = 1
+            answerAcceptanceList.append(answerAcceptance)
+        return answerAcceptanceList
+
+    def getAcceptedAnswers(self, questions):
+        questions = self.extracted_posts.posts['questions']
+        acceptedAnswers = []
+
+        for questionIndex in questions:
+            question = questions[questionIndex]
+            if 'AcceptedAnswerId' in question:
+                acceptedAnswers.append(question['AcceptedAnswerId'])
+
+        return acceptedAnswers
+
 
