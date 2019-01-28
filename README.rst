@@ -31,8 +31,8 @@ Features
 * Python3
 * Reads an XML dataset from archive.org's stack overflow collection to build a training and testing set for each supported algorithm
 * Currently supports:
-  * Simple Linear Regression (WIP)
-  * Multiple Linear Regression (TODO)
+  * Simple Linear Regression
+  * Multiple Linear Regression (WIP)
   * ...
 
 
