@@ -1,5 +1,6 @@
 from Extractors.Extractor import Extractor
 from collections import Mapping
+import re
 import pprint
 
 pp = pprint.PrettyPrinter(indent=4)
@@ -56,7 +57,6 @@ class PostExtractor(Extractor):
         return postsDict
 
     def getWordCountOfAllAnswers(self, answers):
-        answers = 
         wordCountList = []
         for answerIndex in answers:
             answer = answers[answerIndex]['Body']
@@ -71,7 +71,7 @@ class PostExtractor(Extractor):
         return self.getAnswerAcceptanceList(acceptedAnswers)
 
     def getAnswerAcceptanceList(self, acceptedAnswers):
-        answers = self.extracted_posts.posts['answers']
+        answers = self.posts['answers']
         answerAcceptanceList = []
 
         for answerIndex in answers:
@@ -83,7 +83,7 @@ class PostExtractor(Extractor):
         return answerAcceptanceList
 
     def getAcceptedAnswers(self, questions):
-        questions = self.extracted_posts.posts['questions']
+        questions = self.posts['questions']
         acceptedAnswers = []
 
         for questionIndex in questions:

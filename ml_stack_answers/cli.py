@@ -28,14 +28,14 @@ def main(ctx, debug):
 @click.argument("predict")
 @click.pass_context
 def slr(ctx, predict):
-    SLR(data_dir, predict)
+    print(SLR(ctx, data_dir, predict))
 main.add_command(slr)
 
 @click.command()
 @click.argument("predict")
 @click.pass_context
 def mlr(ctx, predict):
-    MLR(data_dir, predict)
+    print(MLR(ctx, data_dir, predict))
 main.add_command(mlr)
 
 if __name__ == "__main__":

@@ -1,5 +1,15 @@
-from helpers import get_data_directory, data_files
 from Extractors.PostExtractor import PostExtractor
+
+files = {
+    #    'Badges': 'Badges.xml',
+    #    'Comments': 'Comments.xml',
+    #    'PostHistory': 'PostHistory.xml',
+    #    'PostLinks': 'PostLinks.xml',
+    'Posts': 'Posts.xml',
+    #    'Tags': 'Tags.xml',
+    #    'Users': 'Users.xml',
+    #    'Votes': 'Votes.xml',
+}
 
 import numpy as np
 import matplotlib.pyplot as plt
@@ -7,9 +17,8 @@ import pandas as pd
 from sklearn.model_selection import train_test_split
 from sklearn.linear_model import LinearRegression
 
-def run(ctx, data, predict):
+def run(ctx, data_dir, predict):
     """Preprocess data files for algorithm"""
-    data_dir = ensureDirSlash(data)
     predict = predict.split(',')
 
     extracted_posts = PostExtractor(data_dir + files['Posts'])
