@@ -25,7 +25,7 @@ def run(ctx, data_dir, predict):
 
     extracted_posts = PostExtractor(data_dir + files['Posts'])
 
-    x = extracted_posts.getWordCountOfAllAnswers(answers=extracted_posts.posts['answers'])
+    x = extracted_posts.getAllAnswerWordCount(answers=extracted_posts.posts['answers'])
     # list of wordcounts for all posts
     y = extracted_posts.getAllAnswerAcceptanceList(questions=extracted_posts.posts['questions']) # corresponding accepted / not accepted status of all posts
 

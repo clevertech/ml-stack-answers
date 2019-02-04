@@ -1,6 +1,8 @@
 from Extractors.Extractor import Extractor
 from collections import Mapping
 import re
+import sys
+import pandas as pd
 import pprint
 
 pp = pprint.PrettyPrinter(indent=4)
@@ -56,15 +58,29 @@ class PostExtractor(Extractor):
             postsDict[post.attrib["Id"]] = post.attrib
         return postsDict
 
-    def getWordCountOfAllAnswers(self, answers):
+    def _wordCount(self, body):
+        exp = re.compile(r'<.*?>') #Answers has html :)
+        answer = exp.sub('', body)
+        return str(len(answer.split()))
+
+    def getAllAnswerWordCount(self, answers):
         wordCountList = []
         for answerIndex in answers:
-            answer = answers[answerIndex]['Body']
-            exp = re.compile(r'<.*?>') #Answers has html :)
-            answer = exp.sub('', answer)
-            answers[answerIndex]['WordCount'] = str(len(answer.split()))
+            answers[answerIndex]['WordCount'] = self._wordCount(answers[answerIndex]['Body'])
             wordCountList.append(answers[answerIndex]['WordCount'])
         return wordCountList
+
+    def getAllAnswerScoreList(self, answers):
+        scoreList = []
+        for answerIndex in answers:
+            scoreList.append(answers[answerIndex]['Score'])
+        return scoreList
+
+    def getAllAnswerUserIdList(self, answers):
+        scoreList = []
+        for answerIndex in answers:
+            scoreList.append(answers[answerIndex]['Score'])
+        return scoreList
 
     def getAllAnswerAcceptanceList(self, questions):
         acceptedAnswers = self.getAcceptedAnswers(questions)
@@ -93,4 +109,23 @@ class PostExtractor(Extractor):
 
         return acceptedAnswers
 
+    def getPdSeries(self):
+        print('Getting series...')
+        parsed_xml = self.tree
+        dfcols = ['WordCount', 'UserId', 'Score', 'Accepted']
+        df_xml = pd.DataFrame(columns=dfcols)
+        answers = self.getRawAnswers()
+        acceptance_list = self.getAllAnswerAcceptanceList(self.posts['questions'])
 
+        for node in answers:
+            sys.stdout.write('.')
+            sys.stdout.flush()
+            body = node.attrib.get('Body')
+            wordCount = self._wordCount(body)
+            score = node.attrib.get('Score')
+            userId = node.attrib.get('OwnerUserId')
+            accepted = node.attrib.get('Id') in acceptance_list
+            df_xml = df_xml.append(pd.Series([wordCount, score, userId, accepted], index=dfcols), ignore_index=True)
+
+        print('Series ready!')
+        return df_xml

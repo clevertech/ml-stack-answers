@@ -32,10 +32,9 @@ def slr(ctx, predict):
 main.add_command(slr)
 
 @click.command()
-@click.argument("predict")
 @click.pass_context
-def mlr(ctx, predict):
-    print(MLR(ctx, data_dir, predict))
+def mlr(ctx):
+    print(MLR(ctx, data_dir))
 main.add_command(mlr)
 
 if __name__ == "__main__":
