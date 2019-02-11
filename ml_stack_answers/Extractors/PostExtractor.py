@@ -61,7 +61,7 @@ class PostExtractor(Extractor):
     def _wordCount(self, body):
         exp = re.compile(r'<.*?>') #Answers has html :)
         answer = exp.sub('', body)
-        return str(len(answer.split()))
+        return len(answer.split())
 
     def getAllAnswerWordCount(self, answers):
         wordCountList = []
@@ -115,16 +115,29 @@ class PostExtractor(Extractor):
         dfcols = ['WordCount', 'UserId', 'Score', 'Accepted']
         df_xml = pd.DataFrame(columns=dfcols)
         answers = self.getRawAnswers()
-        acceptance_list = self.getAllAnswerAcceptanceList(self.posts['questions'])
+        acceptance_list = self.getAcceptedAnswers(self.posts['questions'])
+
 
         for node in answers:
             sys.stdout.write('.')
             sys.stdout.flush()
             body = node.attrib.get('Body')
+
             wordCount = self._wordCount(body)
+            if (wordCount is not None):
+                wordCount = int(wordCount)
+
             score = node.attrib.get('Score')
+            if (score is not None):
+                score = int(score)
+
             userId = node.attrib.get('OwnerUserId')
-            accepted = node.attrib.get('Id') in acceptance_list
+            if (userId is not None):
+                userId = int(userId)
+            else:
+                userId = 0
+
+            accepted = (node.attrib.get('Id') in acceptance_list)
             df_xml = df_xml.append(pd.Series([wordCount, score, userId, accepted], index=dfcols), ignore_index=True)
 
         print('Series ready!')

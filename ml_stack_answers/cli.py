@@ -3,11 +3,14 @@
 """Console script for ml_stack_answers."""
 import sys
 import click
-import pprint
 import matplotlib.pyplot as plt
 import Algorithms.SLR as SLR
 from os import path
-from pprint import pprint as pp
+import pprint
+pp = pprint.PrettyPrinter(indent=4)
+
+import numpy
+numpy.set_printoptions(threshold=numpy.nan)
 
 from Algorithms.SLR import run as SLR
 from Algorithms.MLR import run as MLR
@@ -34,7 +37,7 @@ main.add_command(slr)
 @click.command()
 @click.pass_context
 def mlr(ctx):
-    print(MLR(ctx, data_dir))
+    pp.pprint(MLR(ctx, data_dir))
 main.add_command(mlr)
 
 if __name__ == "__main__":

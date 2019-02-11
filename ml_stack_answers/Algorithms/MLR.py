@@ -40,5 +40,5 @@ def run(ctx, data_dir):
     predicted = regressor.predict(x_test)
 
     print('Prediction complete')
-    return predicted
+    return (predicted, y_test)
 
