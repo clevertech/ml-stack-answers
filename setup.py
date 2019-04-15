@@ -15,6 +15,7 @@ requirements = [
     'Click>=6.0',
     'matplotlib',
     'numpy',
+    'statsmodels',
     'pandas',
     'sklearn',
 ]

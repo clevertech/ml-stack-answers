@@ -1,8 +1,10 @@
 from Extractors.PostExtractor import PostExtractor
 import pprint
 import matplotlib.pyplot as plt
+import numpy as np
 from sklearn.model_selection import train_test_split
 from sklearn.linear_model import LinearRegression
+import statsmodels.api as sm
 
 files = {
     #    'Badges': 'Badges.xml',
@@ -41,19 +43,11 @@ def run(ctx, data_dir):
 
     predicted = regressor.predict(x_test)
 
+    x = sm.add_constant(x)
+    regressor_ols = sm.OLS(endog = y, exog = x).fit()
+    regressor_ols.summary()
+
     #visualize results
-    plt.scatter(x_test[:1], y_test)
-    plt.plot(y_test, predicted)
-    plt.show()
-
-    plt.scatter(x_test[1:2], y_test)
-    plt.plot(y_test, predicted)
-    plt.show()
-
-    plt.scatter(x_test[2:3], y_test)
-    plt.plot(y_test, predicted)
-    plt.show()
-
 
     return zip(y_test, predicted)
 

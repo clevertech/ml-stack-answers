@@ -10,7 +10,7 @@ import pprint
 pp = pprint.PrettyPrinter(indent=4)
 
 import numpy
-numpy.set_printoptions(threshold=numpy.nan)
+numpy.set_printoptions(threshold=sys.maxsize)
 
 from Algorithms.SLR import run as SLR
 from Algorithms.MLR import run as MLR
