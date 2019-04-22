@@ -137,7 +137,7 @@ class PostExtractor(Extractor):
             else:
                 userId = 0
 
-            accepted = (node.attrib.get('Id') in acceptance_list)
+            accepted = 1 if (node.attrib.get('Id') in acceptance_list) else 0
             df_xml = df_xml.append(pd.Series([wordCount, score, userId, accepted], index=dfcols), ignore_index=True)
 
         print('Series ready!')

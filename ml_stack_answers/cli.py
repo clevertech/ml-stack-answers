@@ -36,9 +36,7 @@ main.add_command(slr)
 @click.command()
 @click.pass_context
 def mlr(ctx):
-    pairs = MLR(ctx, data_dir)
-    for pair in pairs:
-        print(pair)
+    MLR(ctx, data_dir)
 main.add_command(mlr)
 
 if __name__ == "__main__":

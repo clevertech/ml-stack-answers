@@ -5,6 +5,7 @@ import numpy as np
 from sklearn.model_selection import train_test_split
 from sklearn.linear_model import LinearRegression
 import statsmodels.api as sm
+import statsmodels.formula.api as smf
 
 files = {
     #    'Badges': 'Badges.xml',
@@ -27,7 +28,7 @@ def run(ctx, data_dir):
     pd_posts = extracted_posts.getPdSeries()
 
     x = pd_posts.iloc[:, :3].values  ## independent
-    y = pd_posts.iloc[:, -1:].values ## depdendent
+    y = pd_posts.iloc[:, -1].values ## depdendent
 
     print('Finished extracing series')
 
@@ -44,8 +45,19 @@ def run(ctx, data_dir):
     predicted = regressor.predict(x_test)
 
     x = sm.add_constant(x)
-    regressor_ols = sm.OLS(endog = y, exog = x).fit()
-    regressor_ols.summary()
+
+    # nobs = 100
+    # X = np.random.random((nobs, 2))
+    # X = sm.add_constant(X)
+    # beta = [1, .1, .5]
+    # e = np.random.random(nobs)
+    # y = np.dot(X, beta) + e
+
+    np_y = np.array(y)
+    np_x = np.array(x)
+
+    regressor_ols = smf.OLS(endog = np_y, exog = np_x).fit()
+    print(regressor_ols.summary())
 
     #visualize results
 
