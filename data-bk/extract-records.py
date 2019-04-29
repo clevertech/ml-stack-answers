@@ -1,7 +1,7 @@
 from xml.etree import ElementTree as ET
 import pprint
 
-MAX_LEN = 1000
+MAX_LEN = 10
 pp = pprint.PrettyPrinter(indent=4)
 
 class Extractor:
@@ -56,7 +56,7 @@ class PostExtractor(Extractor):
         questions = self.getRawQuestions() 
         root = ET.Element('posts')
         count = 0
-        max = 1000
+        max = MAX_LEN
 
         print('shortening question list')
         for question_index in range(len(questions)):
@@ -75,7 +75,7 @@ class PostExtractor(Extractor):
             if (count > max):
                 break
 
-        limited_questions = questions[:1000]
+        limited_questions = questions[:MAX_LEN]
 
         ET.ElementTree(root).write('extracted.xml')
 

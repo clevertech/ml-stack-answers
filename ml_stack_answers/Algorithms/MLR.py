@@ -44,7 +44,7 @@ def run(ctx, data_dir):
 
     predicted = regressor.predict(x_test)
 
-    x = sm.add_constant(x)
+    x = np.append(arr = np.ones((len(y), 1)).astype(int), values = x, axis = 1)
 
     # nobs = 100
     # X = np.random.random((nobs, 2))
@@ -53,13 +53,23 @@ def run(ctx, data_dir):
     # e = np.random.random(nobs)
     # y = np.dot(X, beta) + e
 
-    np_y = np.array(y)
-    np_x = np.array(x)
+    np_y = np.array(y, dtype=float)
+    np_x = np.array(x, dtype=float)
 
-    regressor_ols = smf.OLS(endog = np_y, exog = np_x).fit()
+    pp.pprint(np_y)
+    pp.pprint(np_x)
+
+    x_opt = np_x[:, [0,1,2,3]]
+    regressor_ols = smf.OLS(endog = np_y, exog = x_opt).fit()
     print(regressor_ols.summary())
 
-    #visualize results
+    x_opt = np_x[:, [0,1,2]]
+    regressor_ols = smf.OLS(endog = np_y, exog = x_opt).fit()
+    print(regressor_ols.summary())
+
+    x_opt = np_x[:, [0,1]]
+    regressor_ols = smf.OLS(endog = np_y, exog = x_opt).fit()
+    print(regressor_ols.summary())
 
     return zip(y_test, predicted)
 
