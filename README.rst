@@ -43,3 +43,7 @@ This package was created with Cookiecutter_ and the `audreyr/cookiecutter-pypack
 
 .. _Cookiecutter: https://github.com/audreyr/cookiecutter
 .. _`audreyr/cookiecutter-pypackage`: https://github.com/audreyr/cookiecutter-pypackage
+
+Data set:
+-------
+Data set is pulled from https://archive.org/download/stackexchange, using https://serverfault.com/ for predicting the answers of the questions asked.
