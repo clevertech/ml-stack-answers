@@ -18,6 +18,7 @@ requirements = [
     'statsmodels',
     'pandas',
     'sklearn',
+    'spacy'
 ]
 
 setup_requirements = ['pytest-runner', ] + requirements

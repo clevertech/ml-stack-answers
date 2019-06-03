@@ -117,11 +117,12 @@ class PostExtractor(Extractor):
         answers = self.getRawAnswers()
         acceptance_list = self.getAcceptedAnswers(self.posts['questions'])
 
-
         for node in answers:
             sys.stdout.write('.')
             sys.stdout.flush()
             body = node.attrib.get('Body')
+            question = self.posts['questions'][node.attrib.get('ParentId')]
+            questionBody = question['Body']
 
             wordCount = self._wordCount(body)
             if (wordCount is not None):
@@ -136,6 +137,21 @@ class PostExtractor(Extractor):
                 userId = int(userId)
             else:
                 userId = 0
+
+            # TODO: build feature for verbs
+
+
+            # TODO: build feature for nouns
+
+
+            # TODO: build feature for noun phrases
+
+
+            # TODO: build feature for entity chunks
+
+
+            # TODO: build feature for codeblock count
+
 
             accepted = 1 if (node.attrib.get('Id') in acceptance_list) else 0
             df_xml = df_xml.append(pd.Series([wordCount, score, userId, accepted], index=dfcols), ignore_index=True)
