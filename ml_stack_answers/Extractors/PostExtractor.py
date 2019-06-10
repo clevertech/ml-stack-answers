@@ -120,41 +120,75 @@ class PostExtractor(Extractor):
         for node in answers:
             sys.stdout.write('.')
             sys.stdout.flush()
-            body = node.attrib.get('Body')
-            question = self.posts['questions'][node.attrib.get('ParentId')]
-            questionBody = question['Body']
-
-            wordCount = self._wordCount(body)
-            if (wordCount is not None):
-                wordCount = int(wordCount)
-
-            score = node.attrib.get('Score')
-            if (score is not None):
-                score = int(score)
-
-            userId = node.attrib.get('OwnerUserId')
-            if (userId is not None):
-                userId = int(userId)
-            else:
-                userId = 0
-
-            # TODO: build feature for verbs
-
-
-            # TODO: build feature for nouns
-
-
-            # TODO: build feature for noun phrases
-
-
-            # TODO: build feature for entity chunks
-
-
-            # TODO: build feature for codeblock count
-
-
-            accepted = 1 if (node.attrib.get('Id') in acceptance_list) else 0
-            df_xml = df_xml.append(pd.Series([wordCount, score, userId, accepted], index=dfcols), ignore_index=True)
+            df_xml = df_xml.append(self.get_node_pd_series(node, is_question=0), ignore_index=True)
 
         print('Series ready!')
         return df_xml
+
+    def getQuestionsPdSeries(self):
+        print('Getting series...')
+        parsed_xml = self.tree
+        dfcols = ['WordCount', 'UserId', 'Score', 'Accepted']
+        df_xml = pd.DataFrame(columns=dfcols)
+        answers = self.getRawAnswers()
+        acceptance_list = self.getAcceptedAnswers(self.posts['questions'])
+
+        for node in answers:
+            sys.stdout.write('.')
+            sys.stdout.flush()
+            df_xml = df_xml.append(self.get_node_pd_series(node, is_question=0), ignore_index=True)
+
+        print('Series ready!')
+        return df_xml
+
+    def getAnswersPdSeries(self):
+        print('Getting series...')
+        dfcols = ['WordCount', 'Score', 'UserId', 'Verbs', 'NounPhrases', 'EntityChunks', 'CodeblockCount', 'CommentCount', 'Accepted']
+        df_xml = pd.DataFrame(columns=dfcols)
+        answers = self.getRawAnswers()
+
+        for node in answers:
+            sys.stdout.write('.')
+            sys.stdout.flush()
+            df_xml = df_xml.append(self.get_node_pd_series(node, is_question=0), ignore_index=True)
+
+        print('Series ready!')
+        return df_xml
+
+    def get_node_pd_series(self, node, is_question):
+        body = node.attrib.get('Body')
+        question_id = node.attrib.get('ParentId')
+        question = self.posts['questions'][question_id]
+
+        wordCount = self._wordCount(body)
+        if (wordCount is not None):
+            word_count = int(wordCount)
+
+        score = node.attrib.get('Score')
+        if (score is not None):
+            score = int(score)
+
+        userId = node.attrib.get('OwnerUserId')
+        if (userId is not None):
+            user_id = int(userId)
+        else:
+            user_id = 0
+
+        # building array for bag_of_verbs
+        verbs = node.attrib.get('Verbs').split(',')
+
+        # building array for bag_of_noun_phrases
+        noun_phrases = node.attrib.get('NounPhrases').split(',')
+
+        # building array for bag_of_entity_chunks
+        entity_chunks = node.attrib.get('EntityChunks').split(',')
+
+        # TODO: build feature for codeblock count
+        codeblock_count = node.attrib.get('CodeblockCount')
+
+        # TODO: build feature for comment count
+        comment_count = node.attrib.get('CommentCount')
+
+        is_accepted = 1 if (node.attrib.get('Id') == question['AcceptedAnswerId') else 0
+        #TODO: Generalize this so we can build a corpus just of text bodies for TF-IDF -- right now, "is_accepted" makes this answer specific
+        return pd.Series([word_count, score, user_id, verbs, noun_phrases, entity_chunks, codeblock_count, comment_count, is_accepted], index=dfcols)
